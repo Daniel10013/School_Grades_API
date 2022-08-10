@@ -1,0 +1,26 @@
+{
+  "dependencies": {
+    "express": "^4.18.1",
+    "nodemon": "^2.0.19"
+  },
+  "name": "api",
+  "version": "1.0.0",
+  "description": "Api for school grades project",
+  "main": "app.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Macintosh-1984/School_Grades_API.git"
+  },
+  "author": "Daniel",
+  "type": "module",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Macintosh-1984/School_Grades_API/issues"
+  },
+  "homepage": "https://github.com/Macintosh-1984/School_Grades_API#readme"
+}
