@@ -1,9 +1,10 @@
-import { GradesController} from "../controller/GradesController.js"
+import { addData } from "../controller/GradesController.js"
 
 export function routeGrades(app){
-    app.get("/" , async (req, res) =>{
+    app.post("/api/create" , async (req, res) =>{
         try{
             let data = await req.body;
+            addData(data)
             if(res.status == 200){
                 res.send(data)
             }
