@@ -14,7 +14,7 @@ export class GradesModel{
     async writeFile(path, data, reWriteFile = false){
         try{
             if(reWriteFile){
-                return await fs.writeFileSync(path, JSON.stringify(data, null, 4));
+                await fs.writeFileSync(path, JSON.stringify(data, null, 4))
             }
             return await fs.appendFileSync(path, JSON.stringify(data, null, 4));
         }
@@ -27,17 +27,6 @@ export class GradesModel{
         try{
             let data = await this.getData(path);
             return data["nextId"];
-        }
-        catch(err){
-            console.log(err)
-        }
-    }
-
-    async setNextId(path, oldNextId){
-        try{
-            let data = await this.getData(path);
-            data.nextId = oldNextId + 1;
-            this.reWriteFile(path, data, true)
         }
         catch(err){
             console.log(err)
