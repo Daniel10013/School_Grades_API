@@ -30,8 +30,8 @@ export async function findData(req, res){
             throw {err: "BAD REQUEST", msg: "Parametro invalido"}
         }
         //Return the searched data if it exists
-        let data = await checkIfExist(id)
-        res.send(data)
+        let data = await checkIfExist(id);
+        res.send(data);
     }
     catch(err){
         res.send("Erro: " + err.err + '\n' + err.msg)
@@ -40,6 +40,25 @@ export async function findData(req, res){
 
 export async function updateData(req, res){
     try{
+        const fields = ["student", "subject", "type", "value"];
+        let id = req.params.id;
+        let data = await checkIfExist(id);
+        let dataToUpdate = req.body;
+
+        let existFields = fields.filter(field => dataToUpdate.hasOwnProperty(field))
+
+        for(let i = 0; i < existFields.length; i++){
+            data[existFields[i]] = dataToUpdate[existFields[i]];
+        }
+        data["timestamp"] = (formatDate(new Date()));
+
+        let db = await gradesModel.getData(PATH_GRADES_DATABASE);
+        let indexToUpdate = db["grades"].findIndex((eachData) => eachData.id == id);
+
+        db["grades"][indexToUpdate] = data;
+        await gradesModel.writeFile(PATH_GRADES_DATABASE, db, true);
+
+        res.send({status: 200, msg: "Registro atualizado com sucesso"});
     }
     catch(err){
 

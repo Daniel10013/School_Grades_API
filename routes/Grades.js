@@ -24,7 +24,7 @@ export function routeGrades(app){
         })
         .patch(async (req, res)=>{
             try{
-                await UpdateData(req, res);
+                await updateData(req, res);
             }
             catch(err){
                 console.log(err)
