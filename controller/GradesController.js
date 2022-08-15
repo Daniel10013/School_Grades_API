@@ -42,6 +42,10 @@ export async function updateData(req, res){
     try{
         const fields = ["student", "subject", "type", "value"];
         let id = req.params.id;
+        if(isNaN(id)){
+            res.status(400);
+            throw {err: "BAD REQUEST", msg: "Parametro invalido"}
+        }
         let data = await checkIfExist(id);
         let dataToUpdate = req.body;
 
@@ -61,7 +65,27 @@ export async function updateData(req, res){
         res.send({status: 200, msg: "Registro atualizado com sucesso"});
     }
     catch(err){
+        res.send("Erro: " + err.err + '\n' + err.msg)
+    }
+}
 
+export async function deleteData(req, res){
+    try{
+        let id = req.params.id
+        if(isNaN(id)){
+            res.status(400);
+            throw {err: "BAD REQUEST", msg: "Parametro invalido"}
+        }
+        await checkIfExist(id);
+        let db = await gradesModel.getData(PATH_GRADES_DATABASE);
+        let indexToDelete = db["grades"].findIndex((grade) => grade.id == id);
+        db["grades"].splice(indexToDelete, 1)
+        await gradesModel.writeFile(PATH_GRADES_DATABASE, db, true);
+
+        res.send({status: 200, msg: "Registro Deletado com Sucesso"})
+    }
+    catch(err){
+        res.send("Erro: " + err.err + '\n ' + err.msg)
     }
 }
 

@@ -1,4 +1,4 @@
-import { addData, findData, updateData } from "../controller/GradesController.js"
+import { addData, findData, updateData, deleteData } from "../controller/GradesController.js"
 
 export function routeGrades(app){
     app.post("/grades/create" , async (req, res) =>{
@@ -31,4 +31,14 @@ export function routeGrades(app){
                 res.send(err.msg)
             }
         })
+
+    app.delete("/grades/delete/:id", async(req, res) =>{
+        try{
+            await deleteData(req, res)
+        }
+        catch(err){
+            console.log(err)
+            res.send(err)
+        }
+    })
 }

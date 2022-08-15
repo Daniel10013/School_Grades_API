@@ -322,14 +322,6 @@
             "timestamp": "2020-05-19T18:21:25.232Z"
         },
         {
-            "id": 41,
-            "student": "nome",
-            "subject": "01 - teste",
-            "type": "teste",
-            "value": 77,
-            "timestamp": "15-08-2022 13:52:55"
-        },
-        {
             "id": 42,
             "student": "Rodrigo Branas",
             "subject": "02 - Node",
