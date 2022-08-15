@@ -22,16 +22,16 @@ export async function addData(req, res){
     }
 }
 
-export async function getDataToUpdate(req, res){
+export async function findData(req, res){
     try{
         let id = req.params.id;
         if(isNaN(id)){
             res.status(400);
             throw {err: "BAD REQUEST", msg: "Parametro invalido"}
         }
-        console.log(checkIfExist(id))
-        let data = await gradesModel.findData(PATH_GRADES_DATABASE, id)
-        res.send(data);
+        //Return the searched data if it exists
+        let data = await checkIfExist(id)
+        res.send(data)
     }
     catch(err){
         res.send("Erro: " + err.err + '\n' + err.msg)
@@ -40,7 +40,6 @@ export async function getDataToUpdate(req, res){
 
 export async function updateData(req, res){
     try{
-
     }
     catch(err){
 
@@ -50,9 +49,9 @@ export async function updateData(req, res){
 async function checkIfExist(id){
     let data = await gradesModel.findData(PATH_GRADES_DATABASE, id)
     if(data == -1){
-        let error = {msg: 'Não foi encontrado nenhum registro com o id ' + id}
-        throw error;
+        throw {err: "Not Found | ", msg: 'Não foi encontrado nenhum registro com o id ' + id}
     }
+    return data
 }
 
 //Validate if the requisition data is ok to be saved
