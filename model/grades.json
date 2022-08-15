@@ -1,5 +1,5 @@
 {
-    "nextId": 51,
+    "nextId": 52,
     "grades": [
         {
             "id": 1,
@@ -392,6 +392,14 @@
             "value": "20",
             "timestamp": "14-08-2022 22:17:13",
             "id": 50
+        },
+        {
+            "student": "Loiane Groner",
+            "subject": "01 - JavaScript",
+            "type": "Fórum",
+            "value": 15,
+            "timestamp": "15-08-2022 15:20:47",
+            "id": 51
         }
     ]
 }

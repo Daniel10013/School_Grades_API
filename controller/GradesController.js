@@ -89,6 +89,28 @@ export async function deleteData(req, res){
     }
 }
 
+export async function getNotaTotalAluno(req, res){
+    try{
+        const require = ["student", "subject"];
+        let data = req.body
+        console.log(data)
+        validateParams(require, data);
+
+        let db = await gradesModel.getData(PATH_GRADES_DATABASE);
+        let maior_nota = 0;
+        db["grades"].map((eachData) =>{
+            if(eachData.student == data.student && eachData.subject == data.subject){
+                maior_nota += eachData.value
+            }
+        })
+
+        res.send({note: maior_nota, msg: "A maior nota do aluno " + data.student + "na matéria " +  data.subject + " é " + maior_nota});
+    }
+    catch(err){
+        res.send("Erro: " + err)
+    }
+}
+
 async function checkIfExist(id){
     let data = await gradesModel.findData(PATH_GRADES_DATABASE, id)
     if(data == -1){

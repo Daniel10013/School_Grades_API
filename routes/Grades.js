@@ -1,4 +1,4 @@
-import { addData, findData, updateData, deleteData } from "../controller/GradesController.js"
+import { addData, findData, updateData, deleteData, getNotaTotalAluno} from "../controller/GradesController.js"
 
 export function routeGrades(app){
     app.post("/grades/create" , async (req, res) =>{
@@ -39,6 +39,16 @@ export function routeGrades(app){
         catch(err){
             console.log(err)
             res.send(err)
+        }
+    })
+
+    app.post("/grades/notas/total", async (req, res) =>{
+        try{
+            await getNotaTotalAluno(req, res)
+        }   
+        catch(err){
+            console.log(err);
+            res.send("Erro: " + err.status + '\n' + err.msg)
         }
     })
 }
