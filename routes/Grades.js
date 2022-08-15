@@ -1,4 +1,4 @@
-import { addData, getDataToUpdate } from "../controller/GradesController.js"
+import { addData, findData, updateData } from "../controller/GradesController.js"
 
 export function routeGrades(app){
     app.post("/grades/create" , async (req, res) =>{
@@ -15,7 +15,7 @@ export function routeGrades(app){
     app.route("/grades/update/:id")
         .get(async (req, res) =>{
             try{
-                await getDataToUpdate(req, res);
+                await findData(req, res);
             }
             catch(err){
                 console.log(err)
@@ -24,7 +24,7 @@ export function routeGrades(app){
         })
         .patch(async (req, res)=>{
             try{
-                // await UpdateData(req, res);
+                await UpdateData(req, res);
             }
             catch(err){
                 console.log(err)
