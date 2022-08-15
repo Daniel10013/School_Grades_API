@@ -8,5 +8,5 @@ app.use(express.json())
 routeGrades(app);
 
 app.listen(process.env.PORT || PORT, () => {
-    console.log("A api foi iniciada. Servidor rodando na porta " + PORT, 'general');
+    console.log("A api foi iniciada. Servidor rodando na porta " + PORT);
 });

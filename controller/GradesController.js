@@ -6,17 +6,54 @@ const require = ["student", "subject", "type", "value"];
 const gradesModel = new GradesModel();
 
 export async function addData(req, res){
-    let data = req.body
-    validateParams(require, data);
-    let db = gradesModel.getData(PATH_GRADES_DATABASE);
-    data["timestamp"] = (formatDate(new Date()));
-    data["id"] = await gradesModel.getNextId(PATH_GRADES_DATABASE);
-    db["grades"].push(data);
-    db["nextId"] = data["id"] + 1;
-    await gradesModel.writeFile(PATH_GRADES_DATABASE, data, false)
-    res.send(data)
+    try{
+        let data = req.body
+        validateParams(require, data);
+        let db = await gradesModel.getData(PATH_GRADES_DATABASE);
+        data["timestamp"] = (formatDate(new Date()));
+        data["id"] = await gradesModel.getNextId(PATH_GRADES_DATABASE);
+        db["grades"].push(data);
+        db["nextId"] = data["id"] + 1;
+        await gradesModel.writeFile(PATH_GRADES_DATABASE, db, true)
+        res.send({status: 200, msg: "Registro adicionado com sucesso"})
+    }
+    catch(err){
+        res.send("Erro: " + err)
+    }
 }
 
+export async function getDataToUpdate(req, res){
+    try{
+        let id = req.params.id;
+        if(isNaN(id)){
+            res.status(400);
+            throw {err: "BAD REQUEST", msg: "Parametro invalido"}
+        }
+        console.log(checkIfExist(id))
+        let data = await gradesModel.findData(PATH_GRADES_DATABASE, id)
+        res.send(data);
+    }
+    catch(err){
+        res.send("Erro: " + err.err + '\n' + err.msg)
+    }
+}
+
+export async function updateData(req, res){
+    try{
+
+    }
+    catch(err){
+
+    }
+}
+
+async function checkIfExist(id){
+    let data = await gradesModel.findData(PATH_GRADES_DATABASE, id)
+    if(data == -1){
+        let error = {msg: 'Não foi encontrado nenhum registro com o id ' + id}
+        throw error;
+    }
+}
 
 //Validate if the requisition data is ok to be saved
 function validateParams(require, data){
