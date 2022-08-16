@@ -111,13 +111,73 @@ export async function getNotaTotalAluno(req, res){
     }
 }
 
+export async function getMediasMateria(req, res){
+    try{
+        const require = ["student", "subject"];
+        let data = req.body;
+        validateParams(require, data);
+
+        let db = await gradesModel.getData(PATH_GRADES_DATABASE);
+        let media = 0;
+        let total_materias = 0;
+        db["grades"].map((eachData) =>{
+            if(eachData.student == data.student && eachData.subject == data.subject){
+                media += eachData.value;
+                total_materias++;                
+            }
+        })
+
+        media = media / total_materias;
+
+        res.send({note: media, msg: "A média de nota do aluno " + data.student + "na matéria " +  data.subject + " é " + media});
+    }
+    catch(err){
+        res.send("Erro: " + err)
+    }
+}
+
+export async function getTresMaioresNotas(req, res){
+    try{
+        const require = ["subject"];
+        let data = req.body;
+        validateParams(require, data);
+
+        let db = await gradesModel.getData(PATH_GRADES_DATABASE);
+        let nota = {value: 0};
+        let nota2 = {value: 0};
+        let nota3 = {value: 0};
+        db["grades"].map((eachData) =>{
+            if(eachData.subject == data.subject){
+                if(eachData.value > nota["value"]){       
+                    nota = eachData
+                }    
+            }
+        })
+        db["grades"].map((eachData) =>{
+            if(eachData.value > nota2.value && eachData.value < nota.value){
+                nota2 = eachData;
+            }
+        })
+        db["grades"].map((eachData) =>{
+            if(eachData.value < nota2.value && eachData.value > nota3.value){
+                nota3 = eachData;
+            }
+        })
+
+        res.send({Maior_nota_1: nota, Maior_nota_2: nota2, Maior_nota_3: nota3});
+    }
+    catch(err){
+        res.send("Erro: " + err)
+    }
+}
+
 async function checkIfExist(id){
     let data = await gradesModel.findData(PATH_GRADES_DATABASE, id)
     if(data == -1){
         throw {err: "Not Found | ", msg: 'Não foi encontrado nenhum registro com o id ' + id}
     }
     return data
-}
+    }
 
 //Validate if the requisition data is ok to be saved
 function validateParams(require, data){
